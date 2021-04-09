@@ -23,7 +23,7 @@
 hs_err_pid*
 
 .idea
+target/
 
 # Meus arquivos
 chromedriver
-contas.json
