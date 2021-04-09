@@ -16,7 +16,7 @@ public class ReaderJsonService {
         List<ContaFacebook> contas = Lists.newArrayList();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            File f = new File("file.json");
+            File f = new File("contas.json");
 //            contaFacebook = mapper.readValue(f, ContaFacebook.class);
             contas = mapper.readValue(f, mapper.getTypeFactory().constructCollectionType(List.class, ContaFacebook.class));
 //            List<ContaFacebook> contas = mapper.readValue(f,
