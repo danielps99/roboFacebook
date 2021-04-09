@@ -66,13 +66,13 @@ public class App implements ICommons {
     }
 
     private void percorrerRecursos(List<Recurso> recursos) {
-        xpathPostsPagina = Constantes.xpathMainPaginaGrupos;
+//        xpathPostsPagina = Constantes.xpathMainPaginaGrupos;
 //        for (String urlGrupo : Constantes.urlsGruposPercorrer) {
         for (Recurso recurso : recursos) {
-            controladorLoopService.inicializarVariaveis();
+            controladorLoopService.inicializarVariaveis(recurso);
             info(recurso.toString());
             driver.get(recurso.getUrl());
-            percorrerECurtir();
+            percorrerECurtir(recurso);
         }
 
         println("FINALIZOU GRUPOS");
@@ -83,7 +83,7 @@ public class App implements ICommons {
 //        percorrerECurtir();
     }
 
-    private void percorrerECurtir() {
+    private void percorrerECurtir(Recurso recurso) {
         sleep(30);
         driver.executeScript("window.scrollTo(0, 2000);");
 
@@ -92,7 +92,8 @@ public class App implements ICommons {
         while (controladorLoopService.canContinuarLoop()) {
             driver.executeScript("window.scrollTo(0, " + controladorLoopService.getPosicaoAtual() + ");");
             sleep(5);
-            WebElement wePublicacoes = buscarDivPublicacoes();
+//            WebElement wePublicacoes = buscarDivPublicacoes();
+            WebElement wePublicacoes = driver.findElement(By.xpath(recurso.getXpath()));
             List<WebElement> elements = wePublicacoes.findElements(By.tagName("div"));
             int elementsSize = elements.size();
             for (; indexElement < elementsSize; indexElement++) {
@@ -120,7 +121,7 @@ public class App implements ICommons {
         }
     }
 
-    private WebElement buscarDivPublicacoes() {
+    private WebElement buscarDivPublicacoesq() {
 //        return driver.findElement(By.xpath(Constantes.xpathMainPerfil));
 //        return driver.findElement(By.xpath(Constantes.xpathMainPaginaCompartilhandoConhecimento));
         return driver.findElement(By.xpath(xpathPostsPagina));

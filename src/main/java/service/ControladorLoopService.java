@@ -1,5 +1,6 @@
 package service;
 
+import dto.Recurso;
 import org.openqa.selenium.WebElement;
 
 public class ControladorLoopService {
@@ -12,8 +13,10 @@ public class ControladorLoopService {
     private Integer maxPosicao;
     private Integer maxRemoverCurtir;
 
+    private Recurso recurso;
+
     private ControladorLoopService() {
-        inicializarVariaveis();
+        inicializarVariaveis(null);
     }
 
     public static ControladorLoopService getInstance() {
@@ -23,7 +26,8 @@ public class ControladorLoopService {
         return uniqueInstance;
     }
 
-    public void inicializarVariaveis() {
+    public void inicializarVariaveis(Recurso recurso) {
+        this.recurso = recurso;
         inicializarVariaveis(30000, 3);
     }
 
@@ -54,5 +58,9 @@ public class ControladorLoopService {
 
     public Integer incrementarContadorAriaLabelRemoverCurtir() {
         return ++contadorAriaLabelRemoverCurtir;
+    }
+
+    public Recurso getRecurso() {
+        return recurso;
     }
 }

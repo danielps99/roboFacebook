@@ -1,10 +1,15 @@
 package dto;
 
+import java.util.List;
+
 public class Recurso {
 
     private String nome;
     private String url;
     private String xpath;
+    private List<String> palavrasAIgnorar;
+    private List<String> naoCurtirPalavras;
+    private List<String> palavrasPreferidas;
 
     public String getNome() {
         return nome;
@@ -28,6 +33,30 @@ public class Recurso {
 
     public void setXpath(String xpath) {
         this.xpath = xpath;
+    }
+
+    public List<String> getPalavrasAIgnorar() {
+        return palavrasAIgnorar;
+    }
+
+    public void setPalavrasAIgnorar(List<String> palavrasAIgnorar) {
+        this.palavrasAIgnorar = palavrasAIgnorar;
+    }
+
+    public List<String> getNaoCurtirPalavras() {
+        return naoCurtirPalavras;
+    }
+
+    public void setNaoCurtirPalavras(List<String> naoCurtirPalavras) {
+        this.naoCurtirPalavras = naoCurtirPalavras;
+    }
+
+    public List<String> getPalavrasPreferidas() {
+        return palavrasPreferidas;
+    }
+
+    public void setPalavrasPreferidas(List<String> palavrasPreferidas) {
+        this.palavrasPreferidas = palavrasPreferidas;
     }
 
     @Override

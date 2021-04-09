@@ -45,7 +45,8 @@ public class Publicacao implements ICommons {
             String webElementText = webElement.getText();
             if (!Strings.isNullOrEmpty(webElementText)) {
                 String parte = webElementText.trim().replaceAll(System.lineSeparator(), " ");
-                if (!Constantes.palavrasAIgnorar.contains(parte)) {
+//                if (!Constantes.palavrasAIgnorar.contains(parte)) {
+                if (controladorLoopService.getRecurso().getPalavrasAIgnorar().contains(parte)) {
                     adicionados.add(parte);
                 }
             }
@@ -59,14 +60,17 @@ public class Publicacao implements ICommons {
         for (String s : adicionados) {
             texto.append(s);
         }
-        for (String naoCurtirTexto : Constantes.naoCurtirPalavras) {
+//        for (String naoCurtirTexto : Constantes.naoCurtirPalavras) {
+        for (String naoCurtirTexto : controladorLoopService.getRecurso().getNaoCurtirPalavras()) {
             if (texto.toString().toLowerCase().contains(naoCurtirTexto)) {
                 return false;
             }
         }
 
-        if (!Constantes.palavrasPreferidas.isEmpty()) {
-            for (String preferido : Constantes.palavrasPreferidas) {
+//        if (!Constantes.palavrasPreferidas.isEmpty()) {
+        if (!controladorLoopService.getRecurso().getPalavrasPreferidas().isEmpty()) {
+//            for (String preferido : Constantes.palavrasPreferidas) {
+            for (String preferido : controladorLoopService.getRecurso().getPalavrasPreferidas()) {
                 if (texto.toString().toLowerCase().contains(preferido)) {
                     return true;
                 }
