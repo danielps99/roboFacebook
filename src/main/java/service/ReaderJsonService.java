@@ -6,29 +6,42 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.ContaFacebook;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class ReaderJsonService {
 
-    public static List<ContaFacebook> buscarUsuario() {
-        List<ContaFacebook> contas = Lists.newArrayList();
+    public static ContaFacebook buscarContaFacebook() {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("./../"));
+            configurarJFileChooser(fileChooser);
             int result = fileChooser.showOpenDialog(null);
 
             if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                contas = mapper.readValue(selectedFile, mapper.getTypeFactory().constructCollectionType(List.class, ContaFacebook.class));
+                return mapper.readValue(fileChooser.getSelectedFile(), ContaFacebook.class);
             }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return contas;
+        return null;
+    }
+
+    private static void configurarJFileChooser(JFileChooser fileChooser) {
+        fileChooser.setCurrentDirectory(new File("./../"));
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(new FileFilter(){
+            @Override
+            public boolean accept(File file){
+                return ((!file.isDirectory() && file.getName().toLowerCase().endsWith(".json")));
+            }
+            @Override
+            public String getDescription() {
+                return "Mostrando somente arquivos.json";
+            }
+        });
     }
 }

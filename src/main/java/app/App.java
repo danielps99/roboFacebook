@@ -13,7 +13,6 @@ import service.ReaderJsonService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class App implements ICommons {
 
@@ -35,25 +34,14 @@ public class App implements ICommons {
     }
 
     public void start() {
-        List<ContaFacebook> contas = ReaderJsonService.buscarUsuario();
-        println("Escolha uma conta pelo numero:");
-        for (int i = 0; i < contas.size(); i++) {
-            println(i + ": " + contas.get(i).getEmail());
-        }
-
-        Scanner scanner = new Scanner(System.in);
-        int index = scanner.nextInt();
-        ContaFacebook contaFacebook = contas.get(index);
-        println("Conta escolhida: " + contaFacebook.getEmail());
-
         inicializarNavegador();
+        ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
         logar(contaFacebook);
         percorrerRecursos(contaFacebook.getRecursos());
-
-        System.out.println(contaFacebook.getRecursos().size());
     }
 
     public void logar(ContaFacebook conta) {
+        println("Conta escolhida: " + conta.getEmail());
         driver.get("https://www.facebook.com/");
         driver.findElement(By.id("email")).sendKeys(conta.getEmail());
         sleep(2);
