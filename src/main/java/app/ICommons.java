@@ -38,11 +38,11 @@ public interface ICommons {
         try {
             throw exception;
         } catch (StaleElementReferenceException e) {
-            System.out.print("----StaleElementReferenceException");
+            println("----StaleElementReferenceException");
         } catch (ElementClickInterceptedException e) {
-            System.out.print("----ElementClickInterceptedException");
+            println("----ElementClickInterceptedException");
         } catch (WebDriverException e) {
-            System.out.print("----WebDriverException");
+            println("----WebDriverException");
         } catch (Exception e) {
             println("----exception.getClass().getName() -> "+exception.getClass().getName());
             error(exception.getMessage());

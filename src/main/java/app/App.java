@@ -18,10 +18,16 @@ public class App implements ICommons {
 
     private ChromeDriver driver;
     private ControladorLoopService controladorLoopService;
-    String xpathPostsPagina = "";
 
     public App() {
         controladorLoopService = ControladorLoopService.getInstance();
+    }
+
+    public void start() {
+        ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
+        inicializarNavegador();
+        logar(contaFacebook);
+        percorrerRecursos(contaFacebook.getRecursos());
     }
 
     private void inicializarNavegador() {
@@ -33,15 +39,8 @@ public class App implements ICommons {
         driver = new ChromeDriver(options);
     }
 
-    public void start() {
-        ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
-        inicializarNavegador();
-        logar(contaFacebook);
-        percorrerRecursos(contaFacebook.getRecursos());
-    }
-
     public void logar(ContaFacebook conta) {
-        println("Conta escolhida: " + conta.getEmail());
+        info("Conta escolhida: " + conta.getEmail());
         driver.get("https://www.facebook.com/");
         driver.findElement(By.id("email")).sendKeys(conta.getEmail());
         sleep(2);
@@ -49,26 +48,16 @@ public class App implements ICommons {
         sleep(2);
         driver.findElement(By.tagName("button")).click();
         sleep(20);
-
-        println("FINALIZOU curtidas do perfil");
     }
 
     private void percorrerRecursos(List<Recurso> recursos) {
-//        xpathPostsPagina = Constantes.xpathMainPaginaGrupos;
-//        for (String urlGrupo : Constantes.urlsGruposPercorrer) {
         for (Recurso recurso : recursos) {
             controladorLoopService.inicializarVariaveis(recurso);
             info(recurso.toString());
             driver.get(recurso.getUrl());
             percorrerECurtir(recurso);
         }
-
-        println("FINALIZOU GRUPOS");
-
-//        driver.get("https://www.facebook.com/");
-//        xpathPostsPagina = Constantes.xpathMainPerfil;
-//        controladorLoopService.inicializarVariaveis(530000, 10);
-//        percorrerECurtir();
+        println("FINALIZOU");
     }
 
     private void percorrerECurtir(Recurso recurso) {
@@ -80,7 +69,6 @@ public class App implements ICommons {
         while (controladorLoopService.canContinuarLoop()) {
             driver.executeScript("window.scrollTo(0, " + controladorLoopService.getPosicaoAtual() + ");");
             sleep(5);
-//            WebElement wePublicacoes = buscarDivPublicacoes();
             WebElement wePublicacoes = driver.findElement(By.xpath(recurso.getXpath()));
             List<WebElement> elements = wePublicacoes.findElements(By.tagName("div"));
             int elementsSize = elements.size();
@@ -91,7 +79,6 @@ public class App implements ICommons {
                     publicacao.adicionarTexto(webElement);
                 } catch (Exception e) {
                     error(e);
-//                    println("StaleElementReferenceException error");
                 }
 
                 if (publicacao.canCurtir()) {
@@ -100,19 +87,11 @@ public class App implements ICommons {
                         webElement.click();
                         publicacao.imprimetexto();
                         sleep(2);
-//                    } catch (StaleElementReferenceException e) {
-//                        println("StaleElementReferenceException on webElement.click");
                     } catch (Exception e) {
                         error(e);
                     }
                 }
             }
         }
-    }
-
-    private WebElement buscarDivPublicacoesq() {
-//        return driver.findElement(By.xpath(Constantes.xpathMainPerfil));
-//        return driver.findElement(By.xpath(Constantes.xpathMainPaginaCompartilhandoConhecimento));
-        return driver.findElement(By.xpath(xpathPostsPagina));
     }
 }
