@@ -1,6 +1,9 @@
 package app;
 
 import com.google.common.base.Strings;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +34,19 @@ public interface ICommons {
     }
 
     public default void error(Exception exception) {
-        error(exception.getMessage());
+        println(exception.getClass().getName());
+        try {
+            throw exception;
+        } catch (StaleElementReferenceException e) {
+            System.out.print("----StaleElementReferenceException");
+        } catch (ElementClickInterceptedException e) {
+            System.out.print("----ElementClickInterceptedException");
+        } catch (WebDriverException e) {
+            System.out.print("----WebDriverException");
+        } catch (Exception e) {
+            println("----exception.getClass().getName() -> "+exception.getClass().getName());
+            error(exception.getMessage());
+        }
     }
 
     public default void error(String error) {

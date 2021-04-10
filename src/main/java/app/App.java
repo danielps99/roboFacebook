@@ -34,8 +34,8 @@ public class App implements ICommons {
     }
 
     public void start() {
-        inicializarNavegador();
         ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
+        inicializarNavegador();
         logar(contaFacebook);
         percorrerRecursos(contaFacebook.getRecursos());
     }
@@ -89,8 +89,9 @@ public class App implements ICommons {
                 try {
                     controladorLoopService.atualizarPosicaoAtual(webElement);
                     publicacao.adicionarTexto(webElement);
-                } catch (StaleElementReferenceException e) {
-                    println("StaleElementReferenceException error");
+                } catch (Exception e) {
+                    error(e);
+//                    println("StaleElementReferenceException error");
                 }
 
                 if (publicacao.canCurtir()) {
@@ -99,8 +100,8 @@ public class App implements ICommons {
                         webElement.click();
                         publicacao.imprimetexto();
                         sleep(2);
-                    } catch (StaleElementReferenceException e) {
-                        println("StaleElementReferenceException on webElement.click");
+//                    } catch (StaleElementReferenceException e) {
+//                        println("StaleElementReferenceException on webElement.click");
                     } catch (Exception e) {
                         error(e);
                     }
