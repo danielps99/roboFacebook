@@ -35,6 +35,7 @@ public class App implements ICommons {
         prefs.put("profile.default_content_setting_values.notifications", 2);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
+        options.addArguments("headless");
         System.setProperty("webdriver.chrome.driver", "chromedriver");
         driver = new ChromeDriver(options);
     }
@@ -51,6 +52,10 @@ public class App implements ICommons {
     }
 
     private void percorrerRecursos(List<Recurso> recursos) {
+
+        info("GRUPOS DA CONTA:");
+        recursos.stream().forEach(e -> info(e.toString()));
+
         for (Recurso recurso : recursos) {
             controladorLoopService.inicializarVariaveis(recurso);
             info(recurso.toString());
