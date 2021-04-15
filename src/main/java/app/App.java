@@ -77,7 +77,7 @@ public class App implements ICommons {
             WebElement wePublicacoes = driver.findElement(By.xpath(recurso.getXpath()));
             List<WebElement> elements = wePublicacoes.findElements(By.tagName("div"));
             int elementsSize = elements.size();
-            for (; indexElement < elementsSize; indexElement++) {
+            for (; indexElement < elementsSize && controladorLoopService.canContinuarLoopElementos(); indexElement++) {
                 WebElement webElement = elements.get(indexElement);
                 try {
                     controladorLoopService.atualizarPosicaoAtual(webElement);

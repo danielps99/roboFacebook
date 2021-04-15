@@ -43,6 +43,10 @@ public class ControladorLoopService {
         return posicaoAtual < maxPosicao && contadorAriaLabelRemoverCurtir < maxRemoverCurtir;
     }
 
+    public boolean canContinuarLoopElementos() {
+        return contadorAriaLabelRemoverCurtir < maxRemoverCurtir;
+    }
+
     public Integer getPosicaoAtual() {
         return posicaoAtual;
     }
