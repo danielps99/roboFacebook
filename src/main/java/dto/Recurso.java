@@ -1,5 +1,7 @@
 package dto;
 
+import service.ControladorLoopService;
+
 import java.util.List;
 
 public class Recurso {
@@ -10,6 +12,11 @@ public class Recurso {
     private List<String> palavrasAIgnorar;
     private List<String> naoCurtirPalavras;
     private List<String> palavrasPreferidas;
+    private int index;
+
+    public Recurso() {
+        index = ControladorLoopService.getInstance().getProximoIndex();
+    }
 
     public String getNome() {
         return nome;
@@ -61,6 +68,6 @@ public class Recurso {
 
     @Override
     public String toString() {
-        return nome + " - " + url;
+        return index + " - " + nome + " - " + url;
     }
 }

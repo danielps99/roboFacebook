@@ -12,7 +12,7 @@ public class ControladorLoopService {
     private Integer contadorAriaLabelRemoverCurtir;
     private Integer maxPosicao;
     private Integer maxRemoverCurtir;
-
+    private Integer contadorRecurso;
     private Recurso recurso;
 
     private ControladorLoopService() {
@@ -37,6 +37,7 @@ public class ControladorLoopService {
         posicaoAnterior = 0;
         maxPosicao = maxPosicaoP;
         maxRemoverCurtir = maxRemoverCurtirP;
+        contadorRecurso = contadorRecurso == null ? 0 : contadorRecurso;
     }
 
     public boolean canContinuarLoop() {
@@ -66,5 +67,9 @@ public class ControladorLoopService {
 
     public Recurso getRecurso() {
         return recurso;
+    }
+
+    public Integer getProximoIndex() {
+        return ++contadorRecurso;
     }
 }

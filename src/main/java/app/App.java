@@ -36,7 +36,7 @@ public class App implements ICommons {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("headless");
-        System.setProperty("webdriver.chrome.driver", "chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/opt/chromedriver");
         driver = new ChromeDriver(options);
     }
 
