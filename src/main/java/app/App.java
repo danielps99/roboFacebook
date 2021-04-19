@@ -31,6 +31,7 @@ public class App implements ICommons {
     }
 
     private void compartilhar() {
+        sleep(2);
         driver.get("https://www.facebook.com/story.php?story_fbid=151392173553983&id=101008055259062");
         sleep(5);
         WebElement element = driver.findElement(By.xpath("//div[@aria-label='Envie isso para amigos ou publique na sua linha do tempo']"));
@@ -42,22 +43,38 @@ public class App implements ICommons {
         sleep(5);
 //        WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1 sp_nfy-8GYyygN sx_ec566c\"]"));
         WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1 sp_rngbGqpmQgW sx_00f5db\"]"));
-        println("VAI" + element3.getText());
         element3.click();
         sleep(5);
         WebElement element4 = driver.findElement(By.xpath("//*[@class=\"d2edcug0 hpfvmrgz qv66sw1b c1et5uql b0tq1wua a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb hrzyx87i jq4qci2q a3bd9o3v ekzkrbhg oo9gr5id hzawbc8m\"]"));
         element4.click();
 
-//  escolher qual grupo compartilhar
-
-        WebElement wePublicacoes = driver.findElement(By.xpath("//*[@class=\"rq0escxv l9j0dhe7 du4w35lb j83agx80 cbu4d94t buofh1pr tgvbjcpo muag1w35 enqfppq2\"]"));
-        List<WebElement> elements = wePublicacoes.findElements(By.tagName("div"));
-
-        System.out.println("wePublicacoes"+wePublicacoes.getSize());
-        System.out.println("ELEMENTES"+elements.size());
+        String nomeDoGrupo = "grupo do halerson rafael";
+        WebElement inputProcurarGrupos = driver.findElement(By.xpath("//input[@aria-label='Procurar grupos']"));
+        sleep(2);
+        digitar(inputProcurarGrupos, nomeDoGrupo);
+        sleep(5);
 
 
-        //Envie isso para amigos ou publique na sua linha do tempo
+
+        //  escolher qual grupo compartilhar
+
+//        WebElement wePublicacoes = driver.findElement(By.xpath("//*[@class=\"rq0escxv l9j0dhe7 du4w35lb j83agx80 cbu4d94t buofh1pr tgvbjcpo muag1w35 enqfppq2\"]"));
+        List<WebElement> grupos = driver.findElements(By.xpath("//*[@class=\"qzhwtbm6 knvmm38d\"]"));
+
+        for (WebElement webElement : grupos) {
+            sleep(3);
+            System.out.println("webElement.getText: "+webElement.getText());
+            if(webElement.getText().equalsIgnoreCase(nomeDoGrupo)) {
+                webElement.click();
+                break;
+            }
+        }
+
+        sleep(10);
+
+        WebElement checkIncluirPubOriginal = driver.findElement(By.xpath("//*[@class=\"s45kfl79 emlxlaya bkmhp75w spb7xbtv i09qtzwb n7fi1qx3 b5wmifdl hzruof5a pmk7jnqg j9ispegn kr520xx4 c5ndavph art1omkt ot9fgl3s rnr61an3\"]"));
+        System.out.println(checkIncluirPubOriginal.getText());
+        checkIncluirPubOriginal.click();
     }
     private void inicializarNavegador() {
         Map<String, Object> prefs = new HashMap<>();
@@ -72,16 +89,15 @@ public class App implements ICommons {
     public void logar(ContaFacebook conta) {
         info("Conta escolhida: " + conta.getEmail());
         driver.get("https://www.facebook.com/");
-        driver.findElement(By.id("email")).sendKeys(conta.getEmail());
-        sleep(2);
-        driver.findElement(By.id("pass")).sendKeys(conta.getPasswd());
-        sleep(2);
+        digitar(driver.findElement(By.id("email")), conta.getEmail());
+        sleep(1);
+        digitar(driver.findElement(By.id("pass")), conta.getPasswd());
+        sleep(1);
         driver.findElement(By.tagName("button")).click();
-        sleep(20);
     }
 
     private void percorrerRecursos(List<Recurso> recursos) {
-
+        sleep(20);
         info("GRUPOS DA CONTA:");
         recursos.stream().forEach(e -> info(e.toString()));
 

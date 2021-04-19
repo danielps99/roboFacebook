@@ -1,9 +1,7 @@
 package app;
 
 import com.google.common.base.Strings;
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +18,18 @@ public interface ICommons {
             Thread.sleep(Long.valueOf(tempoEmMilisegundos));
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public default void digitar(WebElement webElementInput, String texto) {
+        char[] chars = texto.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            try {
+                Thread.sleep(random.nextInt(250) + 250);
+            } catch (InterruptedException e) {
+            } finally {
+                webElementInput.sendKeys(chars[i]+"");
+            }
         }
     }
 
