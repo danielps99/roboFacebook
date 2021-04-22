@@ -28,6 +28,7 @@ public class App implements ICommons {
         inicializarNavegador();
         logar(contaFacebook);
         percorrerRecursos(contaFacebook.getRecursos());
+        alertarFim();
     }
 
     private void compartilhar() {
@@ -162,5 +163,9 @@ public class App implements ICommons {
                 }
             }
         }
+    }
+
+    private void alertarFim(){
+        driver.get("https://www.soundjay.com/button/sounds/beep-01a.mp3");
     }
 }
