@@ -5,7 +5,8 @@ import java.util.List;
 public class ContaFacebook {
     private String email;
     private String passwd;
-    List<Recurso> recursos;
+    private List<Recurso> recursos;
+    private Compartilhavel compartilhavel;
 
     public String getEmail() {
         return email;
@@ -29,5 +30,17 @@ public class ContaFacebook {
 
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
+    }
+
+    public Compartilhavel getCompartilhavel() {
+        return compartilhavel;
+    }
+
+    public void setCompartilhavel(Compartilhavel compartilhavel) {
+        this.compartilhavel = compartilhavel;
+    }
+
+    public boolean isCompartilhavel() {
+        return compartilhavel != null;
     }
 }

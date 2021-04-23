@@ -1,9 +1,9 @@
 package app;
 
+import dto.Compartilhavel;
 import dto.ContaFacebook;
 import dto.Recurso;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -27,14 +27,26 @@ public class App implements ICommons {
         ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
         inicializarNavegador();
         logar(contaFacebook);
-        percorrerRecursos(contaFacebook.getRecursos());
+        if (contaFacebook.isCompartilhavel()) {
+            percorrerECompartilhar(contaFacebook.getCompartilhavel());
+        } else {
+            percorrerRecursos(contaFacebook.getRecursos());
+        }
         alertarFim();
     }
 
-    private void compartilhar() {
+    private void percorrerECompartilhar(Compartilhavel compartilhavel) {
+        info("COMPARTILHAR");
+        for (String nomeGrupo : compartilhavel.getNomesGrupos()) {
+            System.out.println(nomeGrupo);
+            compartilhar(compartilhavel.getUrl(), nomeGrupo);
+        }
+    }
+        private void compartilhar(String urlPost, String nomeGrupo) {
         sleep(2);
 //        driver.get("https://www.facebook.com/story.php?story_fbid=151392173553983&id=101008055259062");
-        driver.get("https://www.facebook.com/story.php?story_fbid=138714348155099&id=101008055259062");
+//        driver.get("https://www.facebook.com/story.php?story_fbid=138714348155099&id=101008055259062");
+        driver.get(urlPost);
         sleep(5);
         WebElement element = driver.findElement(By.xpath("//div[@aria-label='Envie isso para amigos ou publique na sua linha do tempo']"));
         System.out.println(isClicavel(element));
@@ -65,12 +77,11 @@ public class App implements ICommons {
         WebElement element4 = driver.findElement(By.xpath("//*[@class=\"oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 j83agx80 p7hjln8o kvgmc6g5 oi9244e8 oygrvhab h676nmdw cxgpxx05 dflh9lhu sj5x9vvc scb9dxdr i1ao9s8h esuyzwwr f1sip0of lzcic4wl l9j0dhe7 abiwlrkh p8dawk7l bp9cbjyn dwo3fsh8 btwxx1t3 pfnyh3mw du4w35lb\"]"));
         element4.click();
 
-        String nomeDoGrupo = "grupo do halerson rafael";
+//        String nomeDoGrupo = "grupo do halerson rafael";
         WebElement inputProcurarGrupos = driver.findElement(By.xpath("//input[@aria-label='Procurar grupos']"));
         sleep(2);
-        digitar(inputProcurarGrupos, nomeDoGrupo);
+        digitar(inputProcurarGrupos, nomeGrupo);
         sleep(5);
-
 
 
         //  escolher qual grupo compartilhar
@@ -80,8 +91,8 @@ public class App implements ICommons {
 
         for (WebElement webElement : grupos) {
             sleep(3);
-            System.out.println("webElement.getText: "+webElement.getText());
-            if(webElement.getText().equalsIgnoreCase(nomeDoGrupo)) {
+            System.out.println("webElement.getText: " + webElement.getText());
+            if (webElement.getText().equalsIgnoreCase(nomeGrupo)) {
                 webElement.click();
                 break;
             }
@@ -95,7 +106,9 @@ public class App implements ICommons {
 
         sleep(5);
         driver.findElement(By.xpath("//div[@aria-label='Publicar']")).click();
+        sleep(10);
     }
+
     private void inicializarNavegador() {
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2);
@@ -117,6 +130,7 @@ public class App implements ICommons {
     }
 
     private void percorrerRecursos(List<Recurso> recursos) {
+        info("CURTIR");
         sleep(20);
         info("GRUPOS DA CONTA:");
         recursos.stream().forEach(e -> info(e.toString()));
@@ -165,7 +179,7 @@ public class App implements ICommons {
         }
     }
 
-    private void alertarFim(){
+    private void alertarFim() {
         driver.get("https://www.soundjay.com/button/sounds/beep-01a.mp3");
     }
 }
