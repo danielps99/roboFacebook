@@ -25,7 +25,7 @@ public interface ICommons {
         char[] chars = texto.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             try {
-                Thread.sleep(random.nextInt(25) + 50);
+                Thread.sleep(random.nextInt(250) + 250);
             } catch (InterruptedException e) {
             } finally {
                 webElementInput.sendKeys(chars[i]+"");

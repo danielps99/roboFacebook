@@ -4,6 +4,7 @@ import dto.Compartilhavel;
 import dto.ContaFacebook;
 import dto.Recurso;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -38,70 +39,47 @@ public class App implements ICommons {
     private void percorrerECompartilhar(Compartilhavel compartilhavel) {
         info("COMPARTILHAR");
         for (String nomeGrupo : compartilhavel.getNomesGrupos()) {
-            System.out.println(nomeGrupo);
-            compartilhar(compartilhavel.getUrl(), nomeGrupo);
+            try {
+                compartilhar(compartilhavel.getUrl(), nomeGrupo);
+                info("COMPARTILHOR CORRETAMENTE:" + nomeGrupo);
+            } catch (NoSuchElementException e) {
+                info("NoSuchElementException " + nomeGrupo);
+            } catch (Exception e ) {
+                info("OUTROERROSSSS QULQUER");
+            }
         }
     }
         private void compartilhar(String urlPost, String nomeGrupo) {
         sleep(2);
-//        driver.get("https://www.facebook.com/story.php?story_fbid=151392173553983&id=101008055259062");
-//        driver.get("https://www.facebook.com/story.php?story_fbid=138714348155099&id=101008055259062");
         driver.get(urlPost);
         sleep(5);
         WebElement element = driver.findElement(By.xpath("//div[@aria-label='Envie isso para amigos ou publique na sua linha do tempo']"));
-        System.out.println(isClicavel(element));
         element.click();
         sleep(5);
         WebElement element2 = driver.findElement(By.xpath("//*[@class=\"o8rfisnq j83agx80 cbu4d94t tvfksri0 aov4n071 bi6gxh9e l9j0dhe7\"]"));
-        System.out.println(isClicavel(element2));
         element2.click();
         sleep(5);
-//        WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1 sp_nfy-8GYyygN sx_ec566c\"]"));
-//        WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1 sp_rngbGqpmQgW sx_00f5db\"]"));
-
-//        WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1 sp_kYH09d4KWTa sx_61f2b2\"]"));
-//        WebElement element3 = driver.findElement(By.xpath("//*[@class=\"hu5pjgll lzf7d6o1\"]"));
-//        WebElement element3 = driver.findElement(By.xpath("//*[@id=\"jsc_c_2x\"]"));
-
         WebElement element3 = driver.findElement(By.xpath("//label[@aria-label='Compartilhar como']"));
-//        while (!isClicavel(element3)){
-//            System.out.println("nao é clicavel");
-//            element3 = element2;
-//        }
-
         System.out.println(isClicavel(element3));
         element3.click();
-//        element3.is
         sleep(5);
-//        WebElement element4 = driver.findElement(By.xpath("//*[@class=\"d2edcug0 hpfvmrgz qv66sw1b c1et5uql b0tq1wua a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb hrzyx87i jq4qci2q a3bd9o3v ekzkrbhg oo9gr5id hzawbc8m\"]"));
         WebElement element4 = driver.findElement(By.xpath("//*[@class=\"oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 j83agx80 p7hjln8o kvgmc6g5 oi9244e8 oygrvhab h676nmdw cxgpxx05 dflh9lhu sj5x9vvc scb9dxdr i1ao9s8h esuyzwwr f1sip0of lzcic4wl l9j0dhe7 abiwlrkh p8dawk7l bp9cbjyn dwo3fsh8 btwxx1t3 pfnyh3mw du4w35lb\"]"));
         element4.click();
-
-//        String nomeDoGrupo = "grupo do halerson rafael";
         WebElement inputProcurarGrupos = driver.findElement(By.xpath("//input[@aria-label='Procurar grupos']"));
         sleep(2);
         digitar(inputProcurarGrupos, nomeGrupo);
         sleep(5);
-
-
-        //  escolher qual grupo compartilhar
-
-//        WebElement wePublicacoes = driver.findElement(By.xpath("//*[@class=\"rq0escxv l9j0dhe7 du4w35lb j83agx80 cbu4d94t buofh1pr tgvbjcpo muag1w35 enqfppq2\"]"));
         List<WebElement> grupos = driver.findElements(By.xpath("//*[@class=\"qzhwtbm6 knvmm38d\"]"));
-
         for (WebElement webElement : grupos) {
             sleep(3);
             System.out.println("webElement.getText: " + webElement.getText());
-            if (webElement.getText().equalsIgnoreCase(nomeGrupo)) {
+            if (webElement.getText().contains(nomeGrupo)) {
                 webElement.click();
                 break;
             }
         }
-
         sleep(10);
-
         WebElement checkIncluirPubOriginal = driver.findElement(By.xpath("//*[@class=\"oajrlxb2 rq0escxv f1sip0of hidtqoto nhd2j8a9 datstx6m kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x b5wmifdl lzcic4wl jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso pmk7jnqg j9ispegn kr520xx4 k4urcfbm\"]"));
-        System.out.println(checkIncluirPubOriginal.getText());
         checkIncluirPubOriginal.click();
 
         sleep(5);
@@ -141,7 +119,6 @@ public class App implements ICommons {
             driver.get(recurso.getUrl());
             percorrerECurtir(recurso);
         }
-        println("FINALIZOU");
     }
 
     private void percorrerECurtir(Recurso recurso) {
@@ -181,5 +158,6 @@ public class App implements ICommons {
 
     private void alertarFim() {
         driver.get("https://www.soundjay.com/button/sounds/beep-01a.mp3");
+        info("FINALIZOU");
     }
 }
