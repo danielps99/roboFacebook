@@ -47,7 +47,6 @@ public interface ICommons {
     }
 
     public default void error(Exception exception) {
-        println(exception.getClass().getName());
         try {
             throw exception;
         } catch (StaleElementReferenceException e) {
