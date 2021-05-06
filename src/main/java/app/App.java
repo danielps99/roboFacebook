@@ -8,17 +8,20 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import service.TimerLoopService;
 import service.ControladorLoopService;
 import service.ReaderJsonService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 public class App implements ICommons {
 
     private ChromeDriver driver;
     private ControladorLoopService controladorLoopService;
+    private TimerLoopService timerLoopService;
 
     public App() {
         controladorLoopService = ControladorLoopService.getInstance();
@@ -87,6 +90,12 @@ public class App implements ICommons {
         sleep(10);
     }
 
+    private void inicializarTimerLoop() {
+        Timer timer = new Timer();
+        timerLoopService = new TimerLoopService(driver);
+        timer.schedule(timerLoopService, 0, timerLoopService.INTERVALO);
+    }
+
     private void inicializarNavegador() {
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2);
@@ -113,6 +122,7 @@ public class App implements ICommons {
         info("GRUPOS DA CONTA:");
         recursos.stream().forEach(e -> info(e.toString()));
 
+        inicializarTimerLoop();
         for (Recurso recurso : recursos) {
             controladorLoopService.inicializarVariaveis(recurso);
             info(recurso.toString());
@@ -147,6 +157,7 @@ public class App implements ICommons {
                     try {
                         webElement.click();
                         publicacao.imprimetexto();
+                        timerLoopService.atualizarUltimoLoop();
                         sleep(2);
                     } catch (Exception e) {
                         error(e);
