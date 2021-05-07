@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 public class TimerLoopService extends TimerTask {
 
-    public final Long INTERVALO = 180000L;
+    public final Long INTERVALO = 600000L;
     private Date ultimoLoop;
     private ChromeDriver driver;
 

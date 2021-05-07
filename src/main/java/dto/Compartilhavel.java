@@ -8,6 +8,7 @@ import java.util.List;
 public class Compartilhavel {
 
     private String url;
+    private Boolean incluirPubOriginal;
     private HashSet<String> nomesGrupos;
 
     public String getUrl() {
@@ -16,6 +17,14 @@ public class Compartilhavel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Boolean getIncluirPubOriginal() {
+        return incluirPubOriginal;
+    }
+
+    public void setIncluirPubOriginal(Boolean incluirPubOriginal) {
+        this.incluirPubOriginal = incluirPubOriginal;
     }
 
     public HashSet<String> getNomesGrupos() {
