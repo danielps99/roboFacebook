@@ -58,7 +58,7 @@ public class App implements ICommons {
         driver.findElement(By.xpath("//div[@aria-label='Envie isso para amigos ou publique na sua linha do tempo']")).click();
         sleep(5);
 
-        WebElement compartilharEmGrupo = driver.findElement(By.xpath("//*[@class=\"o8rfisnq j83agx80 cbu4d94t tvfksri0 aov4n071 bi6gxh9e l9j0dhe7\"]"));
+        WebElement compartilharEmGrupo = driver.findElement(By.xpath("//*[@class=\"ow4ym5g4 auili1gw rq0escxv j83agx80 buofh1pr g5gj957u i1fnvgqd oygrvhab cxmmr5t8 hcukyx3x kvgmc6g5 tgvbjcpo hpfvmrgz qt6c0cv9 jb3vyjys l9j0dhe7 du4w35lb bp9cbjyn btwxx1t3 dflh9lhu scb9dxdr\"]"));
         compartilharEmGrupo.click();
         sleep(5);
 
