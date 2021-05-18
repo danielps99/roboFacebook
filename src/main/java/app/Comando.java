@@ -1,0 +1,7 @@
+package app;
+
+public enum Comando {
+    SOMENTE_LOGAR,
+    EXECUTAR_NAVEGADOR_FECHADO,
+    EXECUTAR_NAVEGADOR_ABERTO
+}

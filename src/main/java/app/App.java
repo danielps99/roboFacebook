@@ -22,19 +22,23 @@ public class App implements ICommons {
     private ChromeDriver driver;
     private ControladorLoopService controladorLoopService;
     private TimerLoopService timerLoopService;
+    private Comando comando;
 
-    public App() {
+    public App(Comando comando) {
         controladorLoopService = ControladorLoopService.getInstance();
+        this.comando = comando;
     }
 
     public void start() {
         ContaFacebook contaFacebook = ReaderJsonService.buscarContaFacebook();
         inicializarNavegador();
         logar(contaFacebook);
-        if (contaFacebook.isCompartilhavel()) {
-            percorrerECompartilhar(contaFacebook.getCompartilhavel());
-        } else {
-            percorrerRecursos(contaFacebook.getRecursos());
+        if (!Comando.SOMENTE_LOGAR.equals(comando)) {
+            if (contaFacebook.isCompartilhavel()) {
+                percorrerECompartilhar(contaFacebook.getCompartilhavel());
+            } else {
+                percorrerRecursos(contaFacebook.getRecursos());
+            }
         }
         alertarFim();
     }
@@ -107,7 +111,9 @@ public class App implements ICommons {
         prefs.put("profile.default_content_setting_values.notifications", 2);
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
-        options.addArguments("headless");
+        if (Comando.EXECUTAR_NAVEGADOR_FECHADO.equals(comando)) {
+            options.addArguments("headless");
+        }
         System.setProperty("webdriver.chrome.driver", "/opt/chromedriver");
         driver = new ChromeDriver(options);
     }
