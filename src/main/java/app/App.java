@@ -37,7 +37,7 @@ public class App implements ICommons {
             if (contaFacebook.isCompartilhavel()) {
                 percorrerECompartilhar(contaFacebook.getCompartilhavel());
             } else {
-                percorrerRecursos(contaFacebook.getRecursos());
+                percorrerRecursosECurtir(contaFacebook.getRecursos());
             }
         }
         alertarFim();
@@ -128,7 +128,7 @@ public class App implements ICommons {
         driver.findElement(By.tagName("button")).click();
     }
 
-    private void percorrerRecursos(List<Recurso> recursos) {
+    private void percorrerRecursosECurtir(List<Recurso> recursos) {
         info("CURTIR");
         sleep(20);
         info("GRUPOS DA CONTA:");
@@ -139,11 +139,15 @@ public class App implements ICommons {
             controladorLoopService.inicializarVariaveis(recurso);
             info(recurso.toString());
             driver.get(recurso.getUrl());
-            percorrerECurtir(recurso);
+            try {
+                percorrerPublicacoesRecursoECurtir(recurso);
+            } catch (Exception e) {
+                info("Erro ao percorrer e curtir recurso: " + recurso.toString());
+            }
         }
     }
 
-    private void percorrerECurtir(Recurso recurso) {
+    private void percorrerPublicacoesRecursoECurtir(Recurso recurso) {
         sleep(30);
         driver.executeScript("window.scrollTo(0, 2000);");
 

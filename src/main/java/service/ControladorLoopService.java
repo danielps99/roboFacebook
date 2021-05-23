@@ -28,7 +28,7 @@ public class ControladorLoopService {
 
     public void inicializarVariaveis(Recurso recurso) {
         this.recurso = recurso;
-        inicializarVariaveis(30000, 3);
+        inicializarVariaveis(30000, 7);
     }
 
     public void inicializarVariaveis(Integer maxPosicaoP, Integer maxRemoverCurtirP) {
